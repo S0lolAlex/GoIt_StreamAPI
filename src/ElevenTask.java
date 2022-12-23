@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.stream.*;
 
 public class ElevenTask {
-    public String listToStringNames(ArrayList array) {
+    public String listToStringNames(List array) {
         if (isListEmpty(array)) throw new NoSuchElementException("Empty list");
 
         return IntStream
@@ -12,7 +12,7 @@ public class ElevenTask {
                 .collect(Collectors.joining(","));
     }
 
-    public List toUpperNames(ArrayList<String> array) {
+    public List toUpperNames(List<String> array) {
         if (isListEmpty(array)) throw new NoSuchElementException("Empty list");
 
         return array
@@ -27,22 +27,23 @@ public class ElevenTask {
         return array.isEmpty();
     }
 
-    public String fromListToOneString(List<String> array) {
-        if (isListEmpty(array)) throw new NoSuchElementException("Empty list");
-        return array
-                .stream()
+    public String fromListToOneString(String[] array) {
+        if (array.length == 0) throw new NoSuchElementException("Empty list");
+        return  Stream
+                .of(array)
                 .flatMap(line -> Stream.of(line.split(", ")))
                 .sorted()
                 .collect(Collectors.joining(", "));
     }
 
-    private Stream<Long> randomStream(long a, int c, long m, long seed) {
+    private Stream<Long> randomStream(long a, int c, long m, long seed, int end) {
         return Stream
-                .iterate(seed, x -> (a * x + c) % m);
+                .iterate(seed, x -> (a * x + c) % m)
+                .limit(end);
     }
 
-    public void loopStream(long a, int c, long m, long seed) {
-        randomStream(a, c, m, seed)
+    public void loopStream(long a, int c, long m, long seed, int end) {
+        randomStream(a, c, m, seed,end)
                 .forEach(System.out::println);
     }
     public static <T> Stream<T> zip(Stream<T> first, Stream<T> second){
